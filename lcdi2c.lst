@@ -1,0 +1,204 @@
+C51 COMPILER V9.01   LCDI2C                                                                04/18/2024 13:52:27 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE LCDI2C
+OBJECT MODULE PLACED IN .\lcdi2c.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE ..\..\test\lcdi2c.c BROWSE DEBUG OBJECTEXTEND PRINT(.\lcdi2c.lst) OBJECT(.\
+                    -lcdi2c.obj)
+
+line level    source
+
+   1          #include <REGX51.H>
+   2          #include <intrins.h>
+   3          #include <E:\Embbedded-interview-T4\8051\test\lcdi2c.h>
+   4          
+   5          unsigned char slave_add;
+   6          
+   7          sbit scl=P1^0;
+   8          sbit sda=P1^1;
+   9          
+  10          void i2c_start(void)
+  11          {
+  12   1              sda=1;_nop_();_nop_();
+  13   1              scl=1;_nop_();_nop_();
+  14   1              sda=0;_nop_();_nop_();
+  15   1      }
+  16          
+  17          void i2c_stop(void)
+  18          {
+  19   1              scl=0;
+  20   1              sda=0;
+  21   1              scl=1;
+  22   1              sda=1;
+  23   1      }
+  24          
+  25          void LCD_Slave(unsigned char slave)
+  26          {
+  27   1              slave_add=slave;
+  28   1      }
+  29          
+  30          void i2c_ACK(void)
+  31          {
+  32   1              scl=0;
+  33   1              sda=1;
+  34   1              scl=1;
+  35   1              while(sda);
+  36   1      }
+  37          
+  38          void i2c_write(unsigned char dat)
+  39          {
+  40   1              unsigned char i;
+  41   1              for(i=0;i<8;i++)
+  42   1              {
+  43   2              scl=0;
+  44   2              sda=(dat&(0x80)>>i)?1:0;
+  45   2              scl=1;
+  46   2              }
+  47   1      }
+  48          
+  49          void lcd_send_cmd(unsigned char cmd)
+  50          {
+  51   1              unsigned char cmd_l,cmd_u;
+  52   1              
+  53   1              cmd_l=(cmd<<4)&0xf0;
+  54   1              cmd_u=(cmd &0xf0);//0
+C51 COMPILER V9.01   LCDI2C                                                                04/18/2024 13:52:27 PAGE 2   
+
+  55   1              
+  56   1              i2c_start();                     //BL EN RW RS 1 1 0 0
+  57   1              i2c_write(slave_add);
+  58   1              i2c_ACK();
+  59   1              i2c_write(cmd_u|0x0C);
+  60   1              i2c_ACK(); 
+  61   1              delay_ms(1);
+  62   1              i2c_write(cmd_u|0x08); // 1 0 0 0
+  63   1              i2c_ACK();
+  64   1              delay_ms(1);
+  65   1              i2c_write(cmd_l|0x0C);   // 1 1 0 0
+  66   1              i2c_ACK();
+  67   1              delay_ms(1);
+  68   1              i2c_write(cmd_l|0x08);
+  69   1              i2c_ACK();
+  70   1              delay_ms(1);
+  71   1              i2c_stop();
+  72   1      }
+  73          
+  74          void LCD_Send_Data(unsigned char dataw)// 1 1 0 1
+  75          {
+  76   1              unsigned char dataw_l,dataw_u;
+  77   1              dataw_l=(dataw<<4)&0xf0;
+  78   1              dataw_u=(dataw &0xf0);
+  79   1              i2c_start();
+  80   1              i2c_write(slave_add);
+  81   1              i2c_ACK();
+  82   1              i2c_write(dataw_u|0x0D);//BL EN RW RS   1 1 0 1
+  83   1      //gui 4 bit cao den man hinh LCD, cai dat cac chan P0->p4 de gui data hoac lenh
+  84   1              i2c_ACK();
+  85   1              delay_ms(1);
+  86   1              i2c_write(dataw_u|0x09);// 1 0 0 1
+  87   1      //Sau khi chuyen data xong ta chuyen chan EN de cho phep du lieu doc/ghi cho man hinh lcd khi chuyen tu ca
+             -o xuong thap 
+  88   1              i2c_ACK();
+  89   1              delay_ms(1);
+  90   1              i2c_write(dataw_l|0x0D); 
+  91   1      //gui 4 bit thap den man hinh LCD, cai dat cac chan P0->p4 de gui data hoac lenh
+  92   1              i2c_ACK();
+  93   1              delay_ms(1);
+  94   1              i2c_write(dataw_l|0x09);
+  95   1      //Sau khi chuyen data xong ta chuyen chan EN de cho phep du lieu doc/ghi cho man hinh lcd khi chuyen tu ca
+             -o xuong thap 
+  96   1              i2c_ACK();
+  97   1              delay_ms(1);
+  98   1              i2c_stop();
+  99   1      }
+ 100          
+ 101          void LCD_Send_String(unsigned char *p)
+ 102          {
+ 103   1              while(*p != '\0')
+ 104   1              LCD_Send_Data(*p++);
+ 105   1      }
+ 106          
+ 107          
+ 108          void delay_ms(unsigned int n)
+ 109          {
+ 110   1              unsigned int m;
+ 111   1              for(n;n>0;n--)
+ 112   1              {
+ 113   2                      for(m=121;m>0;m--);
+ 114   2                      _nop_();
+C51 COMPILER V9.01   LCDI2C                                                                04/18/2024 13:52:27 PAGE 3   
+
+ 115   2                      _nop_();
+ 116   2                      _nop_();
+ 117   2                      _nop_();
+ 118   2                      _nop_();
+ 119   2                      _nop_();
+ 120   2              }
+ 121   1      }
+ 122          
+ 123          void LCD_Init()
+ 124          {
+ 125   1              lcd_send_cmd(0x02);     // Return home
+ 126   1              lcd_send_cmd(0x28);     // 4 bit mode
+ 127   1              lcd_send_cmd(0x0C);     // Display On , cursor off
+ 128   1              lcd_send_cmd(0x06);     // Increment Cursor (shift cursor to right)
+ 129   1              lcd_send_cmd(0x01); // clear display
+ 130   1      }
+ 131          
+ 132          void LCD_Gotoxy (int col, int row)
+ 133          {
+ 134   1              int pos_Addr;
+ 135   1              if(row == 1) 
+ 136   1              {
+ 137   2                      pos_Addr = 0x80 + row - 2 + col;
+ 138   2              }
+ 139   1              else
+ 140   1              {
+ 141   2                      pos_Addr = 0x80 | (0x40 + col - 1);
+ 142   2              }
+ 143   1              lcd_send_cmd(pos_Addr);
+ 144   1      }
+ 145          
+ 146          void LCD_Send_Number(int number)
+ 147          {
+ 148   1              if(number <= 9)
+ 149   1              {
+ 150   2                      LCD_Send_Data(number + 48);
+ 151   2              }
+ 152   1              else if(number > 9 && number < 100)
+ 153   1              {
+ 154   2                      LCD_Send_Data(number/10 + 48);
+ 155   2                      LCD_Send_Data(number%10 + 48);
+ 156   2              }
+ 157   1              else if(number > 99 && number < 1000)
+ 158   1              {
+ 159   2                      LCD_Send_Data(number/100 + 48);
+ 160   2                      LCD_Send_Data(number/10%10 + 48);
+ 161   2                      LCD_Send_Data(number%10 + 48);
+ 162   2              }
+ 163   1              else if(number > 999 && number < 10000)
+ 164   1              {
+ 165   2                      LCD_Send_Data(number/1000 + 48);
+ 166   2                      LCD_Send_Data(number/100%10 + 48);
+ 167   2                      LCD_Send_Data(number/10%10 + 48);
+ 168   2                      LCD_Send_Data(number%10 + 48);
+ 169   2              }
+ 170   1      }
+ 171          
+ 172          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    554    ----
+C51 COMPILER V9.01   LCDI2C                                                                04/18/2024 13:52:27 PAGE 4   
+
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1      11
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

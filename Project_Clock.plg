@@ -1,0 +1,108 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+E:\Embbedded-interview-T4\8051\Timer\Project_Clock\Project_Clock.uvproj
+Project File Date:  04/18/2024
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(404): warning C206: 'LCD_Slave': missing function-prototype
+MAIN.C(404): error C267: 'LCD_Slave': requires ANSI-style prototype
+compiling lcdi2c.c...
+..\..\test\lcdi2c.c(3): warning C318: can't open file 'lcdi2c.h'
+..\..\TEST\LCDI2C.C(61): warning C206: 'delay_ms': missing function-prototype
+..\..\TEST\LCDI2C.C(61): error C267: 'delay_ms': requires ANSI-style prototype
+..\..\TEST\LCDI2C.C(109): error C231: 'delay_ms': redefinition
+..\..\TEST\LCDI2C.C(121): error C231: 'delay_ms': redefinition
+Target not created
+Build target 'Target 1'
+compiling main.c...
+compiling lcdi2c.c...
+..\..\test\lcdi2c.c(3): warning C318: can't open file 'lcdi2c.h'
+..\..\TEST\LCDI2C.C(61): warning C206: 'delay_ms': missing function-prototype
+..\..\TEST\LCDI2C.C(61): error C267: 'delay_ms': requires ANSI-style prototype
+..\..\TEST\LCDI2C.C(109): error C231: 'delay_ms': redefinition
+..\..\TEST\LCDI2C.C(121): error C231: 'delay_ms': redefinition
+Target not created
+Build target 'Target 1'
+compiling lcdi2c.c...
+linking...
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  _DELAY_MS
+    MODULE:  .\lcdi2c.obj (LCDI2C)
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?INTERRUPT_TIMER0?MAIN
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY_MS?DELAY
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_SEND_NUMBER?LCDI2C
+Program Size: data=28.0 xdata=0 code=2068
+Target not created
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?INTERRUPT_TIMER0?MAIN
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_SEND_NUMBER?LCDI2C
+Program Size: data=28.0 xdata=0 code=2036
+creating hex file from "Project_Clock"...
+"Project_Clock" - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+compiling lcdi2c.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?INTERRUPT_TIMER0?MAIN
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_SEND_NUMBER?LCDI2C
+Program Size: data=28.0 xdata=0 code=2036
+creating hex file from "Project_Clock"...
+"Project_Clock" - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+Program Size: data=25.0 xdata=0 code=1279
+creating hex file from "Project_Clock"...
+"Project_Clock" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+Program Size: data=25.0 xdata=0 code=1283
+creating hex file from "Project_Clock"...
+"Project_Clock" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+Program Size: data=25.0 xdata=0 code=1290
+creating hex file from "Project_Clock"...
+"Project_Clock" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+Program Size: data=25.0 xdata=0 code=1292
+creating hex file from "Project_Clock"...
+"Project_Clock" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(20): error C231: 'P1_3': redefinition
+MAIN.C(20): error C231: 'P1_3': redefinition
+Target not created
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(20): error C231: 'P1_3': redefinition
+Target not created
+Build target 'Target 1'
+compiling main.c...
+linking...
+Program Size: data=25.0 xdata=0 code=1290
+creating hex file from "Project_Clock"...
+"Project_Clock" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+Program Size: data=25.0 xdata=0 code=1292
+creating hex file from "Project_Clock"...
+"Project_Clock" - 0 Error(s), 0 Warning(s).

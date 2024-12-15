@@ -1,0 +1,1 @@
+"..\..\test\lcdi2c.c" BROWSE DEBUG OBJECTEXTEND PRINT(.\lcdi2c.lst) OBJECT(.\lcdi2c.obj)
